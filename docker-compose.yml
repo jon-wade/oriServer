@@ -1,0 +1,9 @@
+version: '3.7'
+
+services:
+  oriserver:
+    image: jonwadeuk/oriserver:latest
+    build:
+      context: .
+    ports:
+      - ${ORI_PORT}:${ORI_PORT}

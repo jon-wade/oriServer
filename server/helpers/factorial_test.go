@@ -7,7 +7,6 @@ import (
 )
 
 func TestFactorial(t *testing.T) {
-	// create a set of single-argument test cases to test pagination validation
 	var tests = []struct {
 		base int64
 		result int64
@@ -19,7 +18,6 @@ func TestFactorial(t *testing.T) {
 		{-5, 0, false},
 	}
 
-	//
 	for _, testData := range tests {
 		testName := fmt.Sprintf("base=%d,result=%d,ok=%v", testData.base, testData.result, testData.ok)
 		t.Run(testName, func(t *testing.T) {

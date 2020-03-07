@@ -9,11 +9,11 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-type Server struct {
+type MathHelperServer struct {
 	pb.MathHelperServer
 }
 
-func (s *Server) Summation(_ context.Context, in *pb.SummationInput) (*pb.SummationResult, error) {
+func (s *MathHelperServer) Summation(_ context.Context, in *pb.SummationInput) (*pb.SummationResult, error) {
 	result, ok := overflow.Add64(in.First, in.Last)
 	if !ok {
 		return nil, status.Errorf(codes.OutOfRange, "summation result exceeds maximum integer value")
@@ -21,7 +21,7 @@ func (s *Server) Summation(_ context.Context, in *pb.SummationInput) (*pb.Summat
 	return &pb.SummationResult{Result: result, First: in.First, Last: in.Last}, nil
 }
 
-func (s *Server) Factorial(_ context.Context, in *pb.FactorialInput) (*pb.FactorialResult, error) {
+func (s *MathHelperServer) Factorial(_ context.Context, in *pb.FactorialInput) (*pb.FactorialResult, error) {
 	result, ok := helpers.Factorial(in.Base)
 	if !ok {
 		return nil, status.Errorf(codes.OutOfRange, "factorial result exceeds maximum integer value")

@@ -19,7 +19,7 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
-	pb.RegisterMathHelperServer(s, &server.server{})
+	pb.RegisterMathHelperServer(s, &server.MathHelperServer{})
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

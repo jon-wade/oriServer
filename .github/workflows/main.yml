@@ -23,9 +23,10 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1.0
+      - name: Checkout
+        uses: actions/checkout@v1.0
       - name: Build and push to Docker Hub
-      - uses: mr-smithers-excellent/docker-build-push@v2
+        uses: mr-smithers-excellent/docker-build-push@v2
         with:
           image: jonwadeuk/oriserver
           tag: latest

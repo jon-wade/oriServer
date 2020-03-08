@@ -5,7 +5,10 @@ services:
     image: jonwadeuk/oriserver:latest
     build:
       context: .
+      dockerfile: Dockerfile.dev
     environment:
       ORI_PORT: ${ORI_PORT}
     ports:
       - ${ORI_PORT}:${ORI_PORT}
+    volumes:
+      - ./:/app

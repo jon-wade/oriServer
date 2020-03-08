@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	pb "github.com/jon-wade/oriServer/ori"
 	"github.com/jon-wade/oriServer/server"
 	"google.golang.org/grpc"
@@ -10,7 +11,9 @@ import (
 )
 
 func main() {
-	lis, err := net.Listen("tcp", os.Getenv("ORI_PORT"))
+
+	fmt.Println("Server listening on port:", os.Getenv("ORI_PORT"))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", os.Getenv("ORI_PORT")))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}

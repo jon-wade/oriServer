@@ -27,5 +27,7 @@ WORKDIR /app
 # Copy the Pre-built binary file from the previous stage
 COPY --from=builder /app/main ./
 
+EXPOSE ${ORI_PORT}
+
 # Run server
 CMD ["./main"]

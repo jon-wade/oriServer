@@ -1,0 +1,20 @@
+FROM golang:1.13.6
+
+# create a working directory
+WORKDIR /app
+
+# Fetch dependencies first; they are less susceptible to change on every build
+# and will therefore be cached for speeding up the next build
+COPY ./go.mod ./go.sum ./
+RUN go mod download
+
+# download file watcher / recompiler for use in dev enviroment only, switch off modules to prevent a go.mod update
+RUN GO111MODULE=off go get github.com/githubnemo/CompileDaemon
+
+# Copy the source from the current directory to the working directory inside the container
+COPY . .
+
+# Expose the application on the following point
+EXPOSE ${ORI_PORT}
+
+CMD ["CompileDaemon", "--command=./oriServer"]

@@ -1,10 +1,17 @@
 #oriServer
 
-
 ## Operation
 
-`ORI_PORT=50051 docker-compose up` to spin up port 50051.
-`ORI_PORT=50051 docker-compose down` to tear down.
+### Spin-Up
+####Development
+`ORI_PORT=50051 docker-compose -f docker-compose.dev.yml up` to spin up the application on port 50051, with a watcher 
+application to build and recompile on file changes.
+
+####Production
+`ORI_PORT=50051 docker-compose up` to spin up the application on port 50051.
+
+### Tear-Down
+`ORI_PORT=50051 docker-compose down` to tear down either environment.
 
 ## Documentation
 The following details the responses to the questions raised in the documentation of the Ori tech test.
@@ -23,12 +30,15 @@ image running in the K8 cluster.
 * **Concurrency**: the app can be scaled by spinning up more containers, as processes above.
 * **Disposability**: in the development environment a simple one line command is all that is required to spin up or tear down
 the app. In a production K8, pods running containers are mortal and can be scaled up or down by a single CLI command.
-* **Dev/Prod parity**: XXXXXX
-* **Logs**: In production, logs would be exported from the cluster as an event stream using something like FluentD and
-collected in a tool to query the streams, for instance CloudWatch.
+* **Dev/Prod parity**: The development environment runs within the Docker container that will run on production isolating
+local development environment configuration issues from the application runtime.
+* **Logs**: In production, logs would likely be exported from the cluster as an event stream using something like 
+FluentD and collected in a tool to query the streams, for instance CloudWatch.
 * **Admin processes**: Docker and Docker-compose files are committed to the repo and can be run as one-off processes.
 
 ### Best cloud native understanding
+
+TODO
 
 ### Expansion to incorporate an eventstore
 
@@ -64,5 +74,6 @@ The application could be made available for access outside the cluster via a Kub
 internal cluster port to an external port. On AWS, for instance, its then possible to set the the service `type` to 
 `LoadBalancer` and an external load balancer will then be automatically configured which will provide a resolvable 
 address to call the service over the internet. There are other methods of configuring access, including `NodePort`, 
-`ExternalName` types or making use of an `Ingress` manifest.
+`ExternalName` types or making use of an `Ingress` manifest. An example service manifest, `k8/oriserver-service.yaml` is
+available in this repo.
 

@@ -6,15 +6,11 @@ import (
 	"google.golang.org/grpc"
 	"log"
 	"net"
-)
-
-// TODO: pop this into an external config
-const (
-	port = ":50051"
+	"os"
 )
 
 func main() {
-	lis, err := net.Listen("tcp", port)
+	lis, err := net.Listen("tcp", os.Getenv("ORI_PORT"))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -24,5 +20,3 @@ func main() {
 		log.Fatalf("failed to serve: %v", err)
 	}
 }
-
-

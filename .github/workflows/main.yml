@@ -21,10 +21,11 @@ jobs:
       - name: Test
         run: go test ./...
   publish:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1.0
+        uses: actions/checkout@v2
       - name: Build and push to Docker Hub
         uses: mr-smithers-excellent/docker-build-push@v2
         with:

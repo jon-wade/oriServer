@@ -29,10 +29,17 @@ Docker-compose installation instructions here: https://docs.docker.com/compose/i
 `go` must be installed, version 1.13.x, to run unit tests. For installation details, please see here:
 https://golang.org/doc/install
 
+## Installation
+ 1. Clone the repo with `git clone https://github.com/jon-wade/oriServer.git`
+ 2. `cd oriServer` to change directories to the newly cloned repo
+ 3. `go mod download` to install the dependencies
+ 
+It is now possible to run the unit tests directly as per the testing section below.
+
 ### Spin-Up
 #### Development
 `ORI_PORT=50051 docker-compose -f docker-compose.dev.yml up` to spin up the application on `localhost:50051`, with a 
-watcher application to build and recompile on file changes.
+watcher application to build and recompile on file changes. This will either pull or build the base image on first use.
 #### Production
 `ORI_PORT=50051 docker-compose up` to spin up the application on `localhost:50051` without file watching etc.
 
@@ -78,7 +85,7 @@ statically typed language and utilises gRPC, the de facto standard for microserv
 3. **Designed as loosely coupled microservices**: the two microservices that make up the Ori system, the `oriServer` and
 `oriClient` are loosely coupled, existing as unique applications sharing only one dependency, the `ori.pg.go` protobuf
 configuration file, which is imported as a go module dependency into `oriClient`.
-4. **Centered around APIs for interaction and collaboration**: both application are centred around the gRPC protobuf
+4. **Centered around APIs for interaction and collaboration**: both applications are centred around the gRPC protobuf
 definition to simplify interaction and collaboration.
 5. **Architected with a clean separation of stateless and stateful services**: both applications are currently stateless.
 6. **Isolated from server and operating system dependencies**: the `oriServer` is isolated via its Docker container, the
@@ -102,15 +109,14 @@ service, `ts` a timestamp of the request and `method`, the type of calculation r
 
 These events need to be stored somewhere, so some form of data store would need to be added to the application. A table
 in a cloud-hosted backed-up relational database would suffice for this purpose, which would store the struct fields, 
-along with a `created_at` timestamp as well as details of the applications container, to be able to identify which 
+along with a `created_at` timestamp as well as details of the application's container, to be able to identify which 
 instance of the application created the record. The application would require code to be added to allow access to that 
 resource, which would also require some amendments to the external configuration to hold the connection credentials.
 
 Writes to this store should happen concurrently with the main processing logic using `go routines` to ensure that 
-performance is not impacted. Decisions would also need to be made on the frequency of writes to this database. For high 
-performance, its likely best to cache events locally in memory for a period and then write in batches, to reduce network
-delays. This approach does introduce the risk of data loss in the case of a failed application, so this risk would
-need to be balanced against overall performance considerations.
+performance is not impacted. Its also likely best to cache events locally in memory for a period and then write in 
+batches, to reduce network latency impacts. This approach does introduce the risk of data loss in the case of a failed 
+application, so this risk would need to be balanced against overall performance considerations.
 
 Next, I would turn my attention to other components of an eventstore. Firstly, do we require an `aggregate` to hold the
 current state of the app? In the case of our app, we may want to hold a running total of the number and types of

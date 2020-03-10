@@ -1,7 +1,5 @@
 # oriServer
 
-## Installation
-
 ## Overview
 
 The `oriServer` is a gRPC server that responds to `oriClient`, a component part of the Ori tech test. The application is

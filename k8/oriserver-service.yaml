@@ -16,5 +16,6 @@ spec:
     targetPort: 50051
   selector:
     io.kompose.service: oriserver
+  type: LoadBalancer
 status:
   loadBalancer: {}

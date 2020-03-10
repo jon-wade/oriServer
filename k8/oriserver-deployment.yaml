@@ -22,7 +22,10 @@ spec:
         io.kompose.service: oriserver
     spec:
       containers:
-      - image: jonwadeuk/oriserver:latest
+      - env:
+        - name: ORI_PORT
+          value: "50051"
+        image: jonwadeuk/oriserver:latest
         name: oriserver
         ports:
         - containerPort: 50051

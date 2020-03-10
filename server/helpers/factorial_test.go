@@ -8,9 +8,9 @@ import (
 
 func TestFactorial(t *testing.T) {
 	var tests = []struct {
-		base int64
+		base   int64
 		result int64
-		ok bool
+		ok     bool
 	}{
 		{3, 6, true},
 		{5, 120, true},
